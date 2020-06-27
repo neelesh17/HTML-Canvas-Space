@@ -97,8 +97,8 @@ function Circle(x,y,dx,dy,radius) {
             c.beginPath();
             c.moveTo(this.x, this.y);  
             c.lineTo(mouse.x, mouse.y);
-            // let diagonal = Math.sqrt(Math.pow(Math.abs(mouse.x - this.x),2) + Math.pow(Math.abs(mouse.y - this.y),2));
-            // c.strokeStyle = `rgba(168, 168, 168,${1 - (diagonal*0.0354)})`;
+            let diagonal = Math.sqrt(Math.pow(Math.abs(mouse.x - this.x),2) + Math.pow(Math.abs(mouse.y - this.y),2));
+            c.strokeStyle = `rgba(168, 168, 168,${1 - (diagonal*0.004)})`;
             c.stroke();
             c.closePath();
         } 
@@ -133,11 +133,26 @@ function animate() {
                 c.moveTo(circleArray[i].x,circleArray[i].y);  
                 c.lineTo(circleArray[j].x, circleArray[j].y);
                 let op = Math.sqrt(Math.pow(Math.abs(circleArray[i].x - circleArray[j].x),2)+ Math.pow(Math.abs(circleArray[i].y - circleArray[j].y),2));
-                c.strokeStyle = `rgba(168, 168, 168,${1 - (op * 0.00709)})`;
+                c.strokeStyle = `rgba(168, 168, 168,${(op * 0.00154)})`;
                 c.stroke();
             }
         }
     }
+    c.font = "bold 60px Balsamiq Sans";
+    c.fillStyle = "rgba(0, 242, 255, 1)";
+    c.textAlign = "center";
+    c.textBaseline = "ideographic";
+    let ctext = "SPACE WEB".split("").join(String.fromCharCode(8201))
+    c.fillText(ctext, canvas.width/2, canvas.height/2);
+    c.font = "40px Crimson Text";
+    c.fillText("Jul 25, 2020", canvas.width/2, canvas.height/2 + 100); 
+    c.beginPath();
+    c.moveTo(canvas.width/2 - 100 , canvas.height/2 + 20);
+    c.lineTo(canvas.width/2 + 100, canvas.height/2 + 20); 
+    c.strokeStyle = "rgba(0, 242, 255, 1)";
+    c.lineWidth = 2.5;
+    c.stroke();
+    c.closePath();
 }
 init();
 animate();
