@@ -5,47 +5,19 @@ canvas.height = window.innerHeight;
 
 let c = canvas.getContext('2d'); //c - context
 
-// //rectangle
-// c.fillStyle = "rgba(255, 0, 0, 0.5)"; //preceeds the rectangle the you want to fill
-// c.fillRect(100, 100, 100, 100); // fillRect(x,y,width,height)
-// c.fillStyle = "rgba(0, 255, 0, 0.5)";
-// c.fillRect(500, 600, 100, 100); // fillRect(x,y,width,height)
-// c.fillStyle = "rgba(0, 0, 255, 0.5)";
-// c.fillRect(700, 300, 100, 100); // fillRect(x,y,width,height)
-
-
-// //line
-// c.beginPath();
-// c.moveTo(50, 300);  //moveTo(x,y)
-// c.lineTo(300, 100);
-// c.strokeStyle = "rgba(0, 255, 0, 1)";
-// c.stroke();
-// c.lineTo(800, 400);   //(x,y)
-// c.strokeStyle = "rgba(0, 0, 255, 1)";
-// c.stroke();
-
-// let counter = false;
-// //arc / circle
-// for(let i=1;i<30;i++){
-//     let x = Math.random()*window.innerWidth;
-//     let y = Math.random()*window.innerHeight;
-//     let red = Math.random()*255;
-//     let blue = Math.random()*255;
-//     let green = Math.random()*255;
-//     counter = !counter;
-//     c.beginPath();
-//     c.arc(x,y,30,0,Math.PI *1,counter) //(x,y,radius, startangle(radian), endangle(radian), counterclockwise),y,radius, startangle(radian), endangle(radian), counterclockwise)
-//     c.strokeStyle = "rgba("+red+","+ green+"," +blue+", 1)";
-//     c.stroke()
-// }
-
 let mouse = {
     x: undefined,
     y: undefined
 }
+const colors = ['33, 133, 197', '126, 206, 253', '255, 246, 229', '255, 127, 102']
 
 const maxRadius = 40, minRadius = 2;
 
+function randomColor(colors) {
+    return colors[Math.floor(Math.random() * colors.length)]
+}
+let digColor = randomColor(colors);
+let circleColor = randomColor(colors);
 
 window.addEventListener('mousemove', function(event){
     mouse.x = event.x;
@@ -67,6 +39,7 @@ window.addEventListener('click', function(){
         let dy = (Math.random() - 0.5)*2;
         circleArray.push(new Circle(x, y, dx, dy, radius))
     }
+    circleArray.splice(0,4);
 })
 
 function Circle(x,y,dx,dy,radius) {
@@ -79,7 +52,7 @@ function Circle(x,y,dx,dy,radius) {
     this.draw = function() {
         c.beginPath();
         c.arc(this.x,this.y,this.radius,0,Math.PI *2,false) ;
-        c.fillStyle = 'gray';
+        c.fillStyle = `rgba(${circleColor}, 0.7)`;
         c.fill();
     }
     this.update = function() {
@@ -98,7 +71,7 @@ function Circle(x,y,dx,dy,radius) {
             c.moveTo(this.x, this.y);  
             c.lineTo(mouse.x, mouse.y);
             let diagonal = Math.sqrt(Math.pow(Math.abs(mouse.x - this.x),2) + Math.pow(Math.abs(mouse.y - this.y),2));
-            c.strokeStyle = `rgba(168, 168, 168,${1 - (diagonal*0.004)})`;
+            c.strokeStyle = `rgba(${digColor},${1 - (diagonal*0.004)})`;
             c.stroke();
             c.closePath();
         } 
@@ -133,7 +106,7 @@ function animate() {
                 c.moveTo(circleArray[i].x,circleArray[i].y);  
                 c.lineTo(circleArray[j].x, circleArray[j].y);
                 let op = Math.sqrt(Math.pow(Math.abs(circleArray[i].x - circleArray[j].x),2)+ Math.pow(Math.abs(circleArray[i].y - circleArray[j].y),2));
-                c.strokeStyle = `rgba(168, 168, 168,${(op * 0.00154)})`;
+                c.strokeStyle = `rgba(${digColor},${(op * 0.00154)})`;
                 c.stroke();
             }
         }
